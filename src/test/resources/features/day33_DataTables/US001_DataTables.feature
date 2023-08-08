@@ -1,3 +1,4 @@
+@phone
 Feature: US001_Amazonda_Urun_Aratma
   Scenario: TC01_Amazonda_Urun_Aratma
     Given kullanici_amazon_sayfasina_gider

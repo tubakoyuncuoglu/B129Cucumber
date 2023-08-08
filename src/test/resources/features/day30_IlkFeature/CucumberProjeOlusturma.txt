@@ -1,14 +1,51 @@
--Cucumber Projesi oluşturmak istediğimizde yapmamız geren adımlar:
- 1-Öncelikle dependency leri pom.xml dosyamıza yüklemiz gerekir
-    (selenium-java,webdrivermanager,cucumber-java,cucumber-jUnit)
- 2-Sonra file->settings->plugins->marketplace den cucumber ve gherkin pluginlerini yüklemimiz gerekir
- 3-Test->java->techproed->4 tane package oluştururuz
-    3.1-pages-> Locatelerimizi bu package altında tutarız
-    3.2-stepDefinition-> Yazdığımız Test adımlarının kodlarını tutarız
-    3.3-utilities->Projemiz için oluşturmuş olduğumuz Driver class'larını bu package'ta tutarız
-    3.4-runners->Bu package altında istediğimiz senaryoları çalıştırır ve raporlar alabiliriz
- 4-Test package' ı altında Gherkin language kullanarak yazacağımız .feature file'lar için resources package'ı oluştururuz
- 5-Projemizdeki data'ları bir yerde toplamak için .properties uzantılı dosya oluştururuz
-    (proje sevisinde bu dosyamızı oluştururuz)
- 6-.feature file'lar için resources package'ı altında features isminde bir package daha oluştururuz
+
+-Cucumber Projesi oluşturmak istediğimizde yapmamız gereken adımlar:
+------------------------------------------------------------------------------------------------------------------------
+ 1-Öncelikle dependency'leri pom.xml dosyamıza yüklememiz gerekir
+    (selenium-java, webdrivermanager, cucumber-java, cucumber-jUnit)
+------------------------------------------------------------------------------------------------------------------------
+ 2-Sonra file->settings->plugins->marketplace den cucumber ve gherkin pluginlerini yüklememiz gerekir.
+------------------------------------------------------------------------------------------------------------------------
+ 3-Test->java->techproed(bize bağlı)-> 4 tane package oluştururuz:
+   3.1-|pages|-> Locatelerimizi bu package altında tutarız
+   3.2-|stepDefiniton|-> Yazdığımız test adımlarının kodlarını tutarız
+   3.3-|utilities|-> Projemiz için oluşturmuş olduğumuz Driver class'larını bu package'da tutarız.
+   3.4-|runners|-> Bu package altında istediğimiz senaryoları çalıştırır ve rapor alabiliriz.
+------------------------------------------------------------------------------------------------------------------------
+ 4-Test package'ı altında Gherkin language kullanarak yazacağımız .feature file'lar için resources package'ı oluştururuz.
+------------------------------------------------------------------------------------------------------------------------
+ 5-Projemizdeki data'ları(email,password,Url vs.) bir yerde toplamak için .properties uzantılı dosya oluştururuz.
+    (Proje seviyesinde bu dosyamızı oluştururuz.Proje seviyesinde sağ tık -> new -> file -> configuration.properties)
+------------------------------------------------------------------------------------------------------------------------
+ 6-Feature file'lar için resources package'ı altında features isminde bir package daha oluştururuz.
+    (resources'a sağ tık -> Directory -> features)
+------------------------------------------------------------------------------------------------------------------------
  7- features package'ı üstene gelip sağtıklayıp new file ile bir feature uzantılı file oluşturalım
+ --Parallel Testing--
+  1-Parallel Testin yapabilmek için öncelikle sure-fire plugin'i pom.xml dosyamıza eklememiz gerekiyor.
+    <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-surefire-plugin</artifactId>
+                 <version>3.0.0</version>
+                 <configuration>
+                     <parallel>methods</parallel>
+                     <threadCount>2</threadCount> <!--aynı anda 2 browser çalıştırılacağı anlamına gelir. -->
+                     <perCoreThreadCount>false</perCoreThreadCount>
+                     <forkCount>2</forkCount> <!-- iki ayrı işlemi başlatır ve her biri farklı bir test paketi çalıştırır. Bu, testlerin daha hızlı tamamlanmasını sağlar. Ancak, bu ayarın artırılması, sistemin kaynaklarını tüketebilir ve performans sorunlarına neden olabilir. -->
+                     <reuseForks>true</reuseForks> <!--Maven önceki testlerde oluşturulmuş işlemleri yeniden kullanır -->
+                     <includes>
+                         <include>**/runners/*Runner*.java</include>
+                     </includes>
+                     <testFailureIgnore>true</testFailureIgnore> <!--testin başarısız olmasına rağmen diğer testlere devam eder ve sonunda tüm testleri çalıştırır. -->
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+  2-Aynı anda 2 farklı scenario çaloştorabilmek için bir tane daha Runner1 isminde class oluşturduk.
+  (3 farklı scenario çalıştırmak istersek 3 adet Runner class'ı olmalı)
+  3-tags parametresine hangi scenario'ları çalıştıracaksak onları belirttik.
+  4-Terminali açarak mvn clean verify yazarak aynı anda scenario'larımızırun ederiz
+  ((Yada sag taraftaki maven -> lifecycle-> once -> clean'i iki kere tikliyoruz target gidiyor sonra->
+  verify iki kere tikliyoruz target tekrar olusuyor testlerimiz çalışıyor))

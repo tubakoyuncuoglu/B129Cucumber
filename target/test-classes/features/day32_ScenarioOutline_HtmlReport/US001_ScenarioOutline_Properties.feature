@@ -7,7 +7,7 @@ Feature: Google_Search
  #Birden fazla veriyi tek seferde feature fileden kullanmamiza yardimci olur
   Scenario Outline: Google_Aramalari
     * kullanici googleda "<aranacakKelime>" aratacaktir
-    * baligin "<aranacakKelime>" icerdigini dogrulayacaktir
+    * basligin "<aranacakKelime>" icerdigini dogrulayacaktir
     * sayfayi_kapatir
     Examples:
       | aranacakKelime |

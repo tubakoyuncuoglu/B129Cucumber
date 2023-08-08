@@ -16,11 +16,9 @@ public class GoogleStepDefinition {
 
     }
 
-    @Given("baligin {string} icerdigini dogrular")
-    public void baligin_icerdigini_dogrular(String string) {
+    @Given("basligin {string} icerdigini dogrular")
+    public void basligin_icerdigini_dogrular(String string) {
         Assert.assertTrue(Driver.getDriver().getTitle().contains(string));
-
-
 
 
     }
@@ -33,8 +31,8 @@ public class GoogleStepDefinition {
 
     }
 
-    @Given("baligin {string} icerdigini dogrulayacaktir")
-    public void baligin_icerdigini_dogrulayacaktir(String string) {
+    @Given("basligin {string} icerdigini dogrulayacaktir")
+    public void basligin_icerdigini_dogrulayacaktir(String string) {
         Assert.assertTrue(Driver.getDriver().getTitle().contains(ConfigReader.getProperty(string)));
 
 
